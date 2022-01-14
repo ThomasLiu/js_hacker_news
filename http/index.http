@@ -1,0 +1,113 @@
+# https://github.com/HackerNews/API
+
+@host=https://hacker-news.firebaseio.com/v0/
+
+
+# Live Data
+# The coolest part of Firebase is its support for change notifications. 
+# While you can subscribe to individual items and profiles, 
+# you'll need to use the following to observe front page ranking, 
+# new items, and new profiles.
+
+# Max Item ID
+### maxitem
+# @name maxitem
+get {{host}}maxitem.json?print=pretty
+
+
+# New, Top and Best Stories
+# Up to 500 top and new stories are at 
+# /v0/topstories (also contains jobs) and /v0/newstories. 
+# Best stories are at /v0/beststories.
+
+### topstories
+# @name topstories
+get {{host}}topstories.json?print=pretty
+
+### get the frist topstories
+# @name topstorie1
+get {{host}}item/{{topstories.response.body.$.[0]}}.json?print=pretty
+
+### get the frist topstorie, frist kids 
+get {{host}}item/{{topstorie1.response.body.$.kids.[0]}}.json?print=pretty
+
+### newstories
+get {{host}}newstories.json?print=pretty
+
+
+### beststories
+get {{host}}beststories.json?print=pretty
+
+
+# Ask, Show and Job Stories
+# Up to 200 of the latest Ask HN, Show HN, and Job stories are at 
+# /v0/askstories, /v0/showstories, and /v0/jobstories.
+
+### askstories
+get {{host}}askstories.json?print=pretty
+
+### showstories
+get {{host}}showstories.json?print=pretty
+
+### jobstories
+get {{host}}jobstories.json?print=pretty
+
+# Changed Items and Profiles
+# The item and profile changes are at /v0/updates.
+
+### updates
+get {{host}}updates.json?print=pretty
+
+# Items
+# Stories, comments, jobs, Ask HNs and even polls are just items. 
+# They're identified by their ids, which are unique integers, 
+# and live under /v0/item/<id>.
+
+### For example, a story: 
+get {{host}}item/8863.json?print=pretty
+
+### comment
+get {{host}}item/2921983.json?print=pretty
+
+### ask
+get {{host}}item/121003.json?print=pretty
+
+### job
+get {{host}}item/192327.json?print=pretty
+
+### poll
+get {{host}}item/126809.json?print=pretty
+
+### and one of its parts:
+get {{host}}item/160705.json?print=pretty
+
+# Users
+# Users are identified by case-sensitive ids, and live under /v0/user/. 
+# Only users that have public activity (comments or story submissions) 
+# on the site are available through the API.
+
+### user
+get {{host}}user/jl.json?print=pretty
+
+
+
+
+### youdao 翻译api
+get http://fanyi.youdao.com/translate?&doctype=json&type=AUTO&i={{topstorie1.response.body.$.title}}
+
+### google 翻译api
+# zh-CN：中文
+# en：英语
+# ja：日语
+# ko：韩语
+# fr：法语
+# de：德语
+# ru：俄语
+# es：西班牙语
+# pt：葡萄牙语
+# it：意大利语
+# vi：越南语
+# id：印尼语
+# ar：阿拉伯语
+# nl：荷兰语
+get http://translate.google.cn/translate_a/single?client=gtx&dt=t&dj=1&ie=UTF-8&sl=auto&tl=zh-CN&q={{topstorie1.response.body.$.title}}
